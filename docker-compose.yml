@@ -1,0 +1,89 @@
+version: "3.7"
+
+services:
+
+  app:
+
+    build:
+
+      args:
+
+        user: robin
+
+        uid: 1000
+
+      context: ./
+
+      dockerfile: Dockerfile
+
+    image: lsp-image
+
+    container_name: lsp-container
+
+    restart: unless-stopped
+
+    working_dir: /var/www/
+
+    volumes:
+
+      - ./:/var/www
+
+    networks:
+
+      - lsp-network
+
+  db:
+
+    image: mysql:8.0
+
+    container_name: lsp-db-container
+
+    restart: unless-stopped
+
+    environment:
+
+      MYSQL_DATABASE: ujian
+
+      MYSQL_ROOT_USER: root
+
+      MYSQL_ROOT_PASSWORD: 1
+
+      SERVICE_TAGS: dev
+
+      SERVICE_NAME: mysql
+
+    volumes:
+
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+
+    networks:
+
+      - lsp-network
+
+  nginx:
+
+    image: nginx:alpine
+
+    container_name: lsp-nginx-container
+
+    restart: unless-stopped
+
+    ports:
+
+      - 8000:80
+
+    volumes:
+
+      - ./:/var/www
+
+      - ./docker-compose/nginx:/etc/nginx/conf.d/
+
+    networks:
+
+      - lsp-network
+
+networks:
+
+  lsp-network:
+
+    driver: bridge

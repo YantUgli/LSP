@@ -36,7 +36,7 @@ Route::resource('users', \App\Http\Controllers\UserController::class)->middlewar
 Route::resource('karyawan', \App\Http\Controllers\KaryawanController::class)->middleware('auth');
 
 
-Route::resource('kategoriwisata', \App\Http\Controllers\kategoriwisataController::class)->middleware('auth');
+Route::resource('kategoriwisata', \App\Http\Controllers\KategoriWisataController::class)->middleware('auth');
 
 Route::resource('kategoriberita', \App\Http\Controllers\kategoriberitaController::class)->middleware('auth');
 
